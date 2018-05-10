@@ -99,6 +99,13 @@
                     </div>
                   </li>
                  
+                  <li class="nav-item dropdown">
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Atendimentos</a>
+                    <div class="dropdown-menu dropdown-menu-arrow">
+                      <a href="atendimentos" class="dropdown-item ">Listar Atendimentos</a>
+                    </div>
+                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -122,7 +129,7 @@
                    
                     <div class="form-group">
                       <div class="form-label">Categorias</div>
-                      <select class="custom-select form-control" name="perfil_pesquisa" />
+                      <select class="custom-select form-control" name="categoria_pesquisa" />
                         <% categorias.forEach(function(categoria){ %>
                           <option value="<%= categoria.id %>"><%= categoria.name %></option>
                         <% }) %>
@@ -148,7 +155,7 @@
                     <% servicos.forEach(function(service){ %>
                     	<tr>
                           <td><%= service.name %></td>
-                          <td><%= service.categoria_id %></td>
+                          <td><%= service.name_categoria %></td>
                           <td class="w-1"><a href="/servicos/editar-servico/<%= service.id %>" class="icon"><i class="fe fe-edit"></i></a></td>
                           <td class="w-1"><a href="/servicos/deletar-servico/<%= service.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
                         </tr>

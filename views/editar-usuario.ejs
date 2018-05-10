@@ -99,6 +99,13 @@
                     </div>
                   </li>
                  
+                  <li class="nav-item dropdown">
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Atendimentos</a>
+                    <div class="dropdown-menu dropdown-menu-arrow">
+                      <a href="atendimentos" class="dropdown-item ">Listar Atendimentos</a>
+                    </div>
+                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -148,11 +155,30 @@
 	                        
 	                        <div class="form-group">
 	                          <label class="form-label">Perfil</label>
-	                          <select name="role" class="form-control custom-select" value="<%= user.role %>">
-	                            <option value="usuario" >Usuário</option>
-	                            <option value="corretor" >Corretor</option>
-	                            <option value="prestador" >Prestador de serviço</option>
-	                            <option value="empresa" >Empresa Prestadora de Serviços</option>
+	                          
+	                          <select name="role" class="form-control custom-select" >
+	                            <% if (user.role == 'usuario') { %>
+	                              <option value="usuario" selected >Usuário</option>
+	                              <option value="corretor" >Corretor</option>
+	                              <option value="prestador" >Prestador de serviço</option>
+	                              <option value="empresa" >Empresa Prestadora de Serviços</option>
+	                            <% } else if (user.role == 'corretor') { %>
+	                              <option value="usuario" >Usuário</option>
+	                              <option value="corretor" selected>Corretor</option>
+	                              <option value="prestador" >Prestador de serviço</option>
+	                              <option value="empresa" >Empresa Prestadora de Serviços</option>
+	                            <% } else if (user.role === 'prestador') { %>
+	                              <option value="usuario" >Usuário</option>
+	                              <option value="corretor" >Corretor</option>
+	                              <option value="prestador" selected>Prestador de serviço</option>
+	                              <option value="empresa" >Empresa Prestadora de Serviços</option>
+	                            <% } else if (user.role == 'empresa') { %>
+	                              <option value="usuario" >Usuário</option>
+	                              <option value="corretor" >Corretor</option>
+	                              <option value="prestador" >Prestador de serviço</option>
+	                              <option value="empresa" selected>Empresa Prestadora de Serviços</option>
+	                            <% } %>
+	                            
 	                          </select>
 	                        </div>
 	                      

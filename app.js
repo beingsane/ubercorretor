@@ -12,6 +12,7 @@ var session      = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuarios');
 var servicosRouter = require('./routes/servicos');
+var atendimentosRouter = require('./routes/atendimentos');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/', indexRouter);
 app.use('/usuarios', usersRouter);
 app.use('/servicos', servicosRouter);
+app.use('/atendimentos', atendimentosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -97,11 +99,10 @@ passport.use(new LocalStrategy({
 		        
 		        var usuario_logado = result.body.response.users[0];
 		        
-		        //TODO - Fazer validação de perfil de acesso
-//		        if (usuario_logado.role !== 'admin')
-//	        	{
-//			        return done(null, false, req.flash('signupMessage', 'Usuário não tem permissão para acessar o sistema.'));
-//	        	}
+		        if (usuario_logado.role !== 'admin')
+	        	{
+			        return done(null, false, req.flash('signupMessage', 'Usuário não tem permissão para acessar o sistema.'));
+	        	}
 		        
 		        usuario_logado.sessionCookieString = result.cookieString;
 		        usuario_logado.sessionID = result.body.meta.session_id;

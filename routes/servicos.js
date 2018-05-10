@@ -11,19 +11,18 @@ router.get('/', isLoggedIn, function(req, res, next) {
 
 	arrowDBApp.customObjectsQuery({
 		limit:200,
-		classname: 'servico',
-		response_json_depth: 3
+		classname: 'servico'
 		
 	}, function(err, result) {
 	    if (err) {
 	        console.error(err.message);
 	        // TODO - Enviar mensagem de erro
 	    } else {
-	    	result.body.response.servico.forEach(function(serv) {
-	            console.log(serv);
-	            console.log("Nome serviço: " + serv.name);
-	            console.log("Categoria serviço: " + serv.categoria_servico);
-	        });
+//	    	result.body.response.servico.forEach(function(serv) {
+//	            console.log(serv);
+//	            console.log("Nome serviço: " + serv.name);
+//	            console.log("Categoria serviço: " + serv.name_categoria);
+//	        });
 	    	
 	    	console.log("Lista de servicos::: " + JSON.stringify(result.body.response.servico));
 	    	
@@ -38,9 +37,9 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	    	        console.error(err.message);
 	    	        // TODO - Enviar mensagem de erro
 	    	    } else {
-	    	    	result.body.response.categoria.forEach(function(cat) {
-	    	            console.log(cat);
-	    	        });
+//	    	    	result.body.response.categoria.forEach(function(cat) {
+//	    	            console.log(cat);
+//	    	        });
 	    	    	
 	    	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
 	    	    	
@@ -62,6 +61,9 @@ router.get('/', isLoggedIn, function(req, res, next) {
 /* POST pesquisa na lista de servicos. */
 router.post('/', isLoggedIn, function(req, res, next) {
 	
+	var id_categoria = req.body.categoria_pesquisa;
+	console.log("ID da Categoria no filtro: " + id_categoria )
+	
 	var ArrowDB = require('arrowdb'),
     	arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
 	arrowDBApp.sessionCookieString = req.user.sessionCookieString;
@@ -70,7 +72,7 @@ router.post('/', isLoggedIn, function(req, res, next) {
 		
 		limit:200,
 		classname: 'servico',
-//		where : { role: req.body.perfil_pesquisa}
+		where : { "[CUSTOM_categoria]categoria_id": id_categoria}
 	
 	}, function(err, result) {
 	    if (err) {
@@ -78,14 +80,39 @@ router.post('/', isLoggedIn, function(req, res, next) {
 	        // TODO - Enviar mensagem de erro
 	    } else {
 	        
-	    	console.log("Lista de Servicos ::: " + JSON.stringify(result.body.response.servico));
+//	    	result.body.response.servico.forEach(function(serv) {
+//	            console.log(serv);
+//	        });
 	    	
-	    	res.render('servicos', 
-	    			{ 
-	    				title: 'Listag de Serviços', 
-	    				servicos: result.body.response.servico,
-	    				nome_usuario_logado: req.user.first_name,
-	    			});
+	    	console.log("Lista de servicos::: " + JSON.stringify(result.body.response.servico));
+	    	
+	    	var services = result.body.response.servico;
+	    	
+	    	arrowDBApp.customObjectsQuery({
+	    		limit:10,
+	    		classname: 'categoria'
+	    		
+	    	}, function(err, result) {
+	    	    if (err) {
+	    	        console.error(err.message);
+	    	        // TODO - Enviar mensagem de erro
+	    	    } else {
+//	    	    	result.body.response.categoria.forEach(function(cat) {
+//	    	            console.log(cat);
+//	    	        });
+//	    	    	
+//	    	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
+	    	    	
+	    	    	res.render('servicos', 
+	    	    			{ 
+	    	    				title: 'Lista de Serviços', 
+	    	    				servicos: services,
+	    	    				categorias: result.body.response.categoria,
+	    	    				nome_usuario_logado: req.user.first_name,
+	    	    			});
+	    	    }
+	    	});
+	        
 	    }
 	});
     
@@ -124,30 +151,55 @@ router.get('/novo-servico', isLoggedIn, function(req, res, next) {
 });
 
 /* POST Adiciona novo serviço. */
-router.post('/novo-serviço', isLoggedIn, function(req, res) {
+router.post('/novo-servico', isLoggedIn, function(req, res) {
   
-  var nome = req.body.name;
-  var id_categoria = req.body.id_categoria;
-  
-  var ArrowDB = require('arrowdb'),
-	  arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
-  arrowDBApp.sessionCookieString = req.user.sessionCookieString;
-  
-  arrowDBApp.customObjectsCreate({
-	  classname: 'servico',
-	    fields: {
-	        name: nome,
-	        categoria_id: id_categoria
-	    }
+	var nome = req.body.name;
+	var id_categoria = req.body.id_categoria;
+	  
+	var ArrowDB = require('arrowdb'),
+		arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
+	arrowDBApp.sessionCookieString = req.user.sessionCookieString;
+	  
+	arrowDBApp.customObjectsQuery({
+		limit:10,
+		classname: 'categoria',
+		where : {
+			id: id_categoria
+		},
+		sel : {"all" : ["name"]}
+		
 	}, function(err, result) {
-	  if (err) {
-	      console.error(err.message);
-	  } else {
-	      console.log(result.body.response.servico);
-	      
-	      res.redirect('/servicos');
-	  }
+	    if (err) {
+	        console.error(err.message);
+	        // TODO - Enviar mensagem de erro
+	    } else {
+	    	console.log("Categoria - nome ::: " + JSON.stringify(result.body.response.categoria[0].name));
+	    	
+	    	var nome_categoria = result.body.response.categoria[0].name;
+	    	
+	    	arrowDBApp.customObjectsCreate({
+	    		classname: 'servico',
+	    	fields: {
+	    	    name: nome,
+	    	    id_categoria: id_categoria,
+	    		name_categoria: nome_categoria,
+	    	    "[CUSTOM_categoria]categoria_id": id_categoria,
+	    	    su_id: req.user.id
+	    	  }
+	    	}, function(err, result) {
+	    	
+	    		if (err) {
+	    			console.error(err.message);
+	    	    } else {
+	    	        console.log(result.body.response.servico);
+	    	      
+	    	        res.redirect('/servicos');
+	    	  }
+	    	});
+	    }
 	});
+    
+	
 
 })
 
@@ -160,21 +212,22 @@ router.get('/editar-servico/:id', isLoggedIn, function(req, res, next) {
     	arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
 	arrowDBApp.sessionCookieString = req.user.sessionCookieString;
 
-	arrowDBApp.placesQuery({
+	arrowDBApp.customObjectsQuery({
 		limit: 5,
+		classname: 'servico',
 	    where: {
-	    	place_id: id
+	    	id: id
 	    }
 	}, function(err, result) {
 	    if (err) {
 	        console.error(err.message);
 	        // TODO - Enviar mensagem de erro
 	    } else {
-	    	result.body.response.places.forEach(function(place) {
-	            console.log(place);
+	    	result.body.response.servico.forEach(function(serv) {
+	            console.log(serv);
 	        });
 	    	
-	        console.log("Serviço encontrado ::: " + JSON.stringify(result.body.response.places[0]));
+	        console.log("Serviço encontrado ::: " + JSON.stringify(result.body.response.servico[0]));
 	        
 	    	res.render('editar-servico', 
 	    			{ 
@@ -190,26 +243,28 @@ router.get('/editar-servico/:id', isLoggedIn, function(req, res, next) {
 
 /* POST Editar Serviço. */
 router.post('/editar-servico/', isLoggedIn, function(req, res) {
-  var id = req.body.id;
-
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
-  var role = req.body.role;
+    var id = req.body.id;
+    var nome = req.body.name;
   
-  var ArrowDB = require('arrowdb'),
-    arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
-  arrowDBApp.sessionCookieString = req.user.sessionCookieString;
+    var ArrowDB = require('arrowdb'),
+      arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL');
+    arrowDBApp.sessionCookieString = req.user.sessionCookieString;
 
-  arrowDBApp.placesUpdate({
-	    place_id: id,
-
-
+    arrowDBApp.customObjectsUpdate({
+	    classname: 'servico',
+	    id: id,
+	    fields: {
+	    	name: nome
+	    }
 	    
 	}, function(err, result) {
 	    if (err) {
 	        console.error(err.message);
 	    } else {
-	    	console.log(result.body.response.places[0]);	        
+	    	result.body.response.servico.forEach(function(serv) {
+	            console.log(serv);
+	        });
+	    	
 	    	res.redirect('/servicos');
 	    }
 	});
