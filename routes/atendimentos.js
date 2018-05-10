@@ -17,7 +17,8 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	        // TODO - Enviar mensagem de erro
 	    } else {
 //	    	result.body.response.events.forEach(function(evt) {
-//	            console.log(evt);
+//	            console.log("Profissional Direto = " + evt.name_profissional);
+//	            console.log("Profissional Custom Fields = " + evt.custom_fields.name_profissional);
 //	        });
 	        
 	    	console.log("Lista de atendimentos::: " + JSON.stringify(result.body.response.events));
