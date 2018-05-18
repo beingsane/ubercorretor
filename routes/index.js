@@ -52,14 +52,40 @@ router.get('/dashboard', isLoggedIn,  function(req, res, next) {
 	    	    	        console.error(err.message);
 	    	    	    } else {
 	    	    	        
-	    	    	        res.render('dashboard', 
-	    	        			{ 
-	    	        				title: 'Dashboard - Uber Corretor de Imóveis',
-	    	        				nome_usuario_logado: req.user.first_name,
-	    	        				quantidade_usuarios : total_usuarios,
-	    	        				quantidade_atendimentos : result.body.meta.count,
-	    	        				usuarios: usuarios_recentes
-	    	        			});
+	    	    	    	var total_eventos = result.body.meta.count;
+	    	    	    	
+	    	    	    	arrowDBApp.customObjectsCount({
+	    	    	    		classname: 'servico'	
+	    	    	    	}, function(err, result) {
+	    	    	    	    if (err) {
+	    	    	    	        console.error(err.message);
+	    	    	    	    } else {
+	    	    	    	        
+	    	    	    	    	var total_servicos = result.body.meta.count;
+	    	    	    	    	
+	    	    	    	    	arrowDBApp.customObjectsCount({
+	    	    	    	    		classname: 'tipo'	
+	    	    	    	    	}, function(err, result) {
+	    	    	    	    	    if (err) {
+	    	    	    	    	        console.error(err.message);
+	    	    	    	    	    } else {
+	    	    	    	    	        
+	    	    	    	    	    	var total_tipos = result.body.meta.count;
+	    	    	    	    	    	
+	    	    	    	    	        res.render('dashboard', 
+	    	    	    	        			{ 
+	    	    	    	        				title: 'Dashboard - Uber Corretor de Imóveis',
+	    	    	    	        				nome_usuario_logado: req.user.first_name,
+	    	    	    	        				quantidade_usuarios : total_usuarios,
+	    	    	    	        				quantidade_atendimentos : total_eventos,
+	    	    	    	        				quantidade_servicos : total_servicos,
+	    	    	    	        				quantidade_tipos : total_tipos,
+	    	    	    	        				usuarios: usuarios_recentes
+	    	    	    	        			});
+	    	    	    	    	    }
+	    	    	    	    	});	    	    	    	    
+	    	    	    	    }
+	    	    	    	});
 	    	    	    }
 	    	    	});
 	    	    	

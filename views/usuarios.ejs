@@ -80,19 +80,20 @@
                 </form>
               </div>
               <div class="col-lg order-lg-first">
+              
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li class="nav-item">
-                    <a href="/dashboard" class="nav-link "><i class="fe fe-home"></i> Home</a>
+                    <a href="/dashboard" class="nav-link"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
-                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-box"></i> Usuários</a>
+                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-user"></i> Usuários</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="/usuarios/" class="dropdown-item ">Listar Usuários</a>
                       <a href="/usuarios/novo-usuario" class="dropdown-item ">Cadastrar Usuário</a>
                     </div>
                   </li>
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i> Serviços</a>
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Serviços</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="/servicos" class="dropdown-item ">Listar Serviços</a>
                       <a href="/servicos/novo-servico" class="dropdown-item ">Cadastrar Serviço</a>
@@ -100,13 +101,22 @@
                   </li>
                  
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Atendimentos</a>
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Tipos</a>
+                    <div class="dropdown-menu dropdown-menu-arrow">
+                      <a href="/tipos" class="dropdown-item ">Listar Tipos</a>
+                      <a href="/tipos/novo-tipo" class="dropdown-item ">Cadastrar Tipo</a>
+                    </div>
+                  </li>
+                  
+                  <li class="nav-item dropdown">
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-check"></i> Atendimentos</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="atendimentos" class="dropdown-item ">Listar Atendimentos</a>
                     </div>
                   </li>
                   
                 </ul>
+                
               </div>
             </div>
           </div>
@@ -198,6 +208,19 @@
                   <ul class="list-unstyled mb-0">
                     <li><a href="/servicos">Lista de Serviços</a></li>
                     <li><a href="/servicos/novo-servico">Cadastrar Novos Serviços</a></li>
+                  </ul>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                  <ul class="list-unstyled mb-0">
+                    <li><a href="/tipos">Lista de Tipos</a></li>
+                    <li><a href="/tipos/novo-tipo">Cadastrar Novos Tipos</a></li>
+                  </ul>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                  <ul class="list-unstyled mb-0">
+                    <li><a href="/atendimentos">Lista de Atendimentos</a></li>
                   </ul>
                 </div>
                 

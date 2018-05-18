@@ -107,6 +107,10 @@ router.post('/novo-usuario', isLoggedIn, function(req, res) {
 	}, function(err, result) {
 	  if (err) {
 	      console.error(err.message);
+	      
+	      res.status(500);
+	      res.render('error', {error: err, message: err.message});
+	      
 	  } else {
 	      console.log(result.body.response.users[0]);
 	      

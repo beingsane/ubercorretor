@@ -12,6 +12,7 @@ var session      = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuarios');
 var servicosRouter = require('./routes/servicos');
+var tiposRouter = require('./routes/tipos');
 var atendimentosRouter = require('./routes/atendimentos');
 
 var app = express();
@@ -36,6 +37,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/', indexRouter);
 app.use('/usuarios', usersRouter);
 app.use('/servicos', servicosRouter);
+app.use('/tipos', tiposRouter);
 app.use('/atendimentos', atendimentosRouter);
 
 // catch 404 and forward to error handler
@@ -54,6 +56,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+//Passport - Login e Session
 passport.serializeUser(function(user, done) {
 	
 	done(null, user);

@@ -100,19 +100,20 @@
                   </li>
                  
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-list"></i> Tipos</a>
+                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-list"></i> Tipos</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
-                      <a href="/tipos" class="dropdown-item ">Listar Tipos</a>
+                      <a href="atendimentos" class="dropdown-item ">Listar Tipos</a>
                       <a href="/tipos/novo-tipo" class="dropdown-item ">Cadastrar Tipo</a>
                     </div>
                   </li>
                   
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-check"></i> Atendimentos</a>
+                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-check"></i> Atendimentos</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
                       <a href="atendimentos" class="dropdown-item ">Listar Atendimentos</a>
                     </div>
                   </li>
+                  
                   
                 </ul>
               </div>
@@ -126,34 +127,21 @@
           <div class="container">
             <div class="page-header">
               <h1 class="page-title">
-                Atendimentos do Aplicativo
+                Tipos do Aplicativo
               </h1>
               
             </div>
             <div class="row row-cards">
               <div class="col-lg-4">
-                <form class="card" action="/atendimentos" method="post">
+                <form class="card" action="tipos" method="post">
                   <div class="card-body">
                    
                     <div class="form-group">
-                      <div class="form-label">Serviço</div>
-                      <select class="custom-select form-control" name="servico_pesquisa" />
-               
-                       <% servicos.forEach(function(serv){ %>
-                          <option value="<%= serv.name %>"><%= serv.name %></option>
+                      <div class="form-label">Categorias</div>
+                      <select class="custom-select form-control" name="categoria_pesquisa" />
+                        <% categorias.forEach(function(categoria){ %>
+                          <option value="<%= categoria.id %>"><%= categoria.name %></option>
                         <% }) %>
-                        
-                      </select>
-                    </div>
-                    
-                    <div class="form-group">
-                      <div class="form-label">Tipo</div>
-                      <select class="custom-select form-control" name="tipo_pesquisa" />
-               
-                       <% tipos.forEach(function(tipo){ %>
-                          <option value="<%= tipo.name %>"><%= tipo.name %></option>
-                        <% }) %>
-                        
                       </select>
                     </div>
                     
@@ -166,24 +154,22 @@
               <div class="col-lg-8">
                 <div class="card">
                   <table class="table card-table table-vcenter">
-                    
                     <tr>
-                      <th class="d-none d-sm-table-cell">Profissional</th>
-                      <th class="d-none d-sm-table-cell">Cliente</th>
-                      <th class="d-none d-md-table-cell">Serviço</th>
-                      <th class="d-none d-md-table-cell">Tipo</th>
-                      <th class="d-none d-md-table-cell">Data/Hora</th>
+                      <th>Nome</th>
+                      <th class="d-none d-sm-table-cell">Categoria</th>
+                      <th></th>
+                      <th></th>
                     </tr>
                     
-                    <% atendimentos.forEach(function(atend){ %>
+                    <% tipos.forEach(function(tipo){ %>
                     	<tr>
-                          <td><%= atend.custom_fields.name_profissional %></td>
-                          <td><%= atend.custom_fields.name_cliente %></td>
-                          <td><%= atend.custom_fields.name_servico %></td>
-                          <td><%= atend.custom_fields.name_tipo %></td>
-                          <td><%= atend.start_time %></td>
+                          <td><%= tipo.name %></td>
+                          <td><%= tipo.name_categoria %></td>
+                          <td class="w-1"><a href="/tipos/editar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-edit"></i></a></td>
+                          <td class="w-1"><a href="/tipos/deletar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
                         </tr>
                     <% }) %>
+                    
                     
 
                   </table>
@@ -219,6 +205,20 @@
                     <li><a href="/servicos/novo-servico">Cadastrar Novos Serviços</a></li>
                   </ul>
                 </div>
+                
+                <div class="col-6 col-md-3">
+                  <ul class="list-unstyled mb-0">
+                    <li><a href="/tipos">Lista de Tipos</a></li>
+                    <li><a href="/tipos/novo-tipo">Cadastrar Novos Tipos</a></li>
+                  </ul>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                  <ul class="list-unstyled mb-0">
+                    <li><a href="/atendimentos">Lista de Atendimentos</a></li>
+                  </ul>
+                </div>
+                
                 
               </div>
             </div>
