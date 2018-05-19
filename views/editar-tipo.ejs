@@ -12,7 +12,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
-    <link rel="icon" href="./../../favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="./../../images/favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" type="image/x-icon" href="./../../favicon.ico" />
     <!-- Generated: 2018-04-06 16:27:42 +0200 -->
 	<title><%= title %></title>   
@@ -135,15 +135,15 @@
                     <div class="row">
                       <div class="col-md-6 col-lg-4">
                         
-                        <form action="/tipos/editar-tipo" method="POST">
-                        
+                        <form class="card" action="/tipos/editar-tipo" method="POST">
+                          <div class="card-body p-6">
                         	<div class="form-group">
 	                          <input type="hidden" class="form-control" name="id" value="<%= tipo.id %>">
 	                        </div>
 	                        
 	                        <div class="form-group">
 	                          <label class="form-label">Nome<span class="form-required">*</span></label>
-	                          <input type="text" class="form-control" name="name" value="<%= tipo.name %>">
+	                          <input type="text" class="form-control" name="name" value="<%= tipo.name %>" required>
 	                        </div>
 	                        <div class="form-group">
 	                          <label class="form-label">Categoria</label>
@@ -155,7 +155,7 @@
 			                    <button type="submit" class="btn btn-primary ml-auto">Enviar</button>
 			                  </div>
 			                </div>
-		                
+		                  </div>
                         </form>
                         
                       </div>

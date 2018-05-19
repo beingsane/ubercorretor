@@ -15,7 +15,7 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	arrowDBApp.sessionCookieString = req.user.sessionCookieString;
 
 	arrowDBApp.usersQuery({
-		limit:200,
+		limit:900,
 		
 	}, function(err, result) {
 	    if (err) {
