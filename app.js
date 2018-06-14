@@ -93,11 +93,16 @@ passport.use(new LocalStrategy({
 	       
         var errors = req.validationErrors();
         
-        if(errors){
-        	console.log("ERROS no Login: " + errors);
-            return done(null, false, req.flash('signupMessage', JSON.Stringify(errors)));
+        if(errors)
+        {
+        	errors.forEach(function(err) {
+      		  req.flash("signupMessage", err.msg);
+            });
+            
+        	return done(null, false, req.flash('signupMessage', " ocorreu um erro ao Efetuar Login."));
         }
         
+       
 		var ArrowDB = require('arrowdb'),
 		    arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL', {
 		    	 	autoSessionManagement: false
