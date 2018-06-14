@@ -12,10 +12,19 @@ router.get('/', isLoggedIn, function(req, res, next) {
 		limit:800,
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", err.message);
+	    	res.render('atendimentos', 
+    			{ 
+    				title: 'Listagem de Atendimentos', 
+    				nome_usuario_logado: req.user.first_name,
+    			});	    
+	    } 
+		else 
+		{
 //	    	result.body.response.events.forEach(function(evt) {
 //	            console.log("Profissional Direto = " + evt.name_profissional);
 //	            console.log("Profissional Custom Fields = " + evt.custom_fields.name_profissional);
@@ -30,10 +39,20 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'servico'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
+	    		if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar os Serviços.");
+	    	    	res.render('atendimentos', 
+	        			{ 
+	        				title: 'Listagem de Atendimentos', 
+	        				nome_usuario_logado: req.user.first_name,
+		    				atendimentos: todos_atendimentos,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
 	    	    	console.log("Lista de serviços no Atendimento ::: " + JSON.stringify(result.body.response.servico));
 	    	    	
 	    	    	var todos_servicos = result.body.response.servico;
@@ -43,14 +62,27 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	    	    		classname: 'tipo'
 	    	    		
 	    	    	}, function(err, result) {
-	    	    	    if (err) {
-	    	    	        console.error(err.message);
-	    	    	        // TODO - Enviar mensagem de erro
-	    	    	    } else {
+	    	    		if (err) 
+	    	    	    {
+	    	    	    	console.error(err.message);
+	    	    		    
+	    	    	        req.flash("error", "Erro ao carregar os Tipos.");
+	    	    	    	res.render('atendimentos', 
+	    	        			{ 
+	    	        				title: 'Listagem de Atendimentos', 
+	    	        				nome_usuario_logado: req.user.first_name,
+    			    				servicos: todos_servicos,
+    			    				atendimentos: todos_atendimentos,
+	    	        			});
+	    	    	    } 
+	    	    	    else 
+	    	    	    {
 	    	    	    	console.log("Lista de tipos no Atendimento ::: " + JSON.stringify(result.body.response.tipo));
 	    	    	    	
 	    	    	    	var todos_tipos = result.body.response.tipo;
 	    	    	    	
+	    	    	    	req.flash("success", "Pesquisa efetuada com sucesso.");
+
 	    	    	    	res.render('atendimentos', 
 	    	    	    			{ 
 	    			    	    		title: 'Listagem de Atendimentos', 
@@ -88,10 +120,19 @@ router.post('/', isLoggedIn, function(req, res, next) {
 		}
 	
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", "Ocorreu um erro ao carregar os Atendimentos.");
+	    	res.render('atendimentos', 
+    			{ 
+    				title: 'Listagem de Atendimentos', 
+    				nome_usuario_logado: req.user.first_name,
+    			});	    
+	    } 
+		else 
+		{
 //	    	result.body.response.events.forEach(function(evt) {
 //	            console.log(evt);
 //	        });
@@ -105,10 +146,20 @@ router.post('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'servico'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
+	    		if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar os Serviços.");
+	    	    	res.render('atendimentos', 
+	        			{ 
+	        				title: 'Listagem de Atendimentos', 
+	        				nome_usuario_logado: req.user.first_name,
+		    				atendimentos: todos_atendimentos,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
 	    	    	console.log("Lista de serviços no Atendimento ::: " + JSON.stringify(result.body.response.servico));
 	    	    	
 	    	    	var todos_servicos = result.body.response.servico;
@@ -118,14 +169,27 @@ router.post('/', isLoggedIn, function(req, res, next) {
 	    	    		classname: 'tipo'
 	    	    		
 	    	    	}, function(err, result) {
-	    	    	    if (err) {
-	    	    	        console.error(err.message);
-	    	    	        // TODO - Enviar mensagem de erro
-	    	    	    } else {
+	    	    		if (err) 
+	    	    	    {
+	    	    	    	console.error(err.message);
+	    	    		    
+	    	    	        req.flash("error", "Erro ao carregar os Tipos.");
+	    	    	    	res.render('atendimentos', 
+	    	        			{ 
+	    	        				title: 'Listagem de Atendimentos', 
+	    	        				nome_usuario_logado: req.user.first_name,
+    			    				servicos: todos_servicos,
+    			    				atendimentos: todos_atendimentos,
+	    	        			});
+	    	    	    } 
+	    	    	    else 
+	    	    	    {
 	    	    	    	console.log("Lista de tipos no Atendimento ::: " + JSON.stringify(result.body.response.tipo));
 	    	    	    	
 	    	    	    	var todos_tipos = result.body.response.tipo;
 	    	    	    	
+	    	    	    	req.flash("success", "Pesquisa efetuada com sucesso.");
+
 	    	    	    	res.render('atendimentos', 
 	    	    	    			{ 
 	    			    	    		title: 'Listagem de Atendimentos', 

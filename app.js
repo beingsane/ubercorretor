@@ -8,6 +8,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var flash    = require('connect-flash');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var expressValidator = require('express-validator');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usuarios');
@@ -29,10 +30,19 @@ app.use(bodyParser()); // get information from html forms
 app.use(express.static(path.join(__dirname, 'public')));
 
 //required for passport
-app.use(session({ secret: 'silvinhoximenes' })); // session secret
+app.use(session({ 
+	secret: 'silvinhoximenes', 
+	resave:true,
+	seveUnintialized:true
+})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(function (req, res, next) {
+	res.locals.messages = require('express-messages')(req, res);
+	next();
+});
+app.use(expressValidator());
 
 app.use('/', indexRouter);
 app.use('/usuarios', usersRouter);
@@ -77,6 +87,17 @@ passport.use(new LocalStrategy({
 	},
   function(req, email, senha, done) {
 	  
+		req.assert('senha', 'A senha é obrigatória').notEmpty();
+        req.assert('email', 'O email é obrigatório').notEmpty();
+        req.assert('email', 'Email inválido').isEmail();
+	       
+        var errors = req.validationErrors();
+        
+        if(errors){
+        	console.log("ERROS no Login: " + errors);
+            return done(null, false, req.flash('signupMessage', JSON.Stringify(errors)));
+        }
+        
 		var ArrowDB = require('arrowdb'),
 		    arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL', {
 		    	 	autoSessionManagement: false
@@ -86,16 +107,13 @@ passport.use(new LocalStrategy({
 		    login: email,
 		    password: senha
 		}, function(err, result) {
-		    if (err) {
+		    if (err) 
+		    {
 		        console.error("Login error:" + (err.message || result.reason));
-                
 		        return done(null, false, req.flash('signupMessage', 'E-mail ou Senha incorretos.'));
-
-//		        return done(null, false, { message: 'E-mail ou Senha incorretos.' });
-
-//		        res.send('A autenticação falhou!');
-		        //TODO - Enviar mensagem de erro para o index/home
-		    } else {
+		    } 
+		    else 
+		    {
 		    	console.log("Usuário encontrado!");
 		       
 		        arrowDBApp.sessionCookieString = result.cookieString;

@@ -130,8 +130,10 @@
               <h1 class="page-title">
                 Usuários do Aplicativo
               </h1>
-              
             </div>
+        
+			<%- messages('mensagens-template', locals) %>
+    
             <div class="row row-cards">
               <div class="col-lg-4">
                 <form class="card" action="/usuarios" method="post">
@@ -165,7 +167,8 @@
                       <th></th>
                     </tr>
                     
-                    <% usuarios.forEach(function(user){ %>
+                    <% if (typeof usuarios !== 'undefined' && usuarios) { 
+                    	usuarios.forEach(function(user){ %>
                     	<tr>
                           <td><%= user.first_name %></td>
                           <td><%= user.email %></td>
@@ -173,7 +176,8 @@
                           <td class="w-1"><a href="/usuarios/editar-usuario/<%= user.id %>" class="icon"><i class="fe fe-edit"></i></a></td>
                           <td class="w-1"><a href="/usuarios/deletar-usuario/<%= user.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
                         </tr>
-                    <% }) %>
+                    <% })
+                    } %>
                     
                     
 

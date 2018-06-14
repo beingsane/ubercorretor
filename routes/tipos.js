@@ -14,18 +14,19 @@ router.get('/', isLoggedIn, function(req, res, next) {
 		classname: 'tipo'
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
-//	    	result.body.response.servico.forEach(function(serv) {
-//	            console.log(serv);
-//	            console.log("Nome serviço: " + serv.name);
-//	            console.log("Categoria serviço: " + serv.name_categoria);
-//	        });
-	    	
-	    	console.log("Lista de tipos::: " + JSON.stringify(result.body.response.tipo));
-	    	
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", err.message);
+	    	res.render('tipos', 
+    			{ 
+    				title: 'Listagem de Tipos', 
+    				nome_usuario_logado: req.user.first_name,
+    			});	    
+	    } 
+		else 
+		{
 	    	var types = result.body.response.tipo;
 	    	
 	    	arrowDBApp.customObjectsQuery({
@@ -33,10 +34,20 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'categoria'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
+	    		if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	    	res.render('tipos', 
+	        			{ 
+	        				title: 'Listagem de Tipos', 
+	        				nome_usuario_logado: req.user.first_name,
+	        				tipos: types,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
 //	    	    	result.body.response.categoria.forEach(function(cat) {
 //	    	            console.log(cat);
 //	    	        });
@@ -75,11 +86,19 @@ router.post('/', isLoggedIn, function(req, res, next) {
 		where : { "[CUSTOM_categoria]categoria_id": id_categoria}
 	
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
-	        
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", err.message);
+	    	res.render('tipos', 
+    			{ 
+    				title: 'Listagem de Tipos', 
+    				nome_usuario_logado: req.user.first_name,
+    			});
+	    } 
+	    else 
+	    {
 //	    	result.body.response.servico.forEach(function(serv) {
 //	            console.log(serv);
 //	        });
@@ -93,15 +112,21 @@ router.post('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'categoria'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
-//	    	    	result.body.response.categoria.forEach(function(cat) {
-//	    	            console.log(cat);
-//	    	        });
-//	    	    	
-//	    	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
+	    		if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	    	res.render('tipos', 
+	        			{ 
+	        				title: 'Listagem de Tipos', 
+	        				nome_usuario_logado: req.user.first_name,
+	        				tipos: types,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
+	    	    	req.flash("success", "Pesquisa efetuada com sucesso.");
 	    	    	
 	    	    	res.render('tipos', 
 	    	    			{ 
@@ -130,10 +155,19 @@ router.get('/novo-tipo', isLoggedIn, function(req, res, next) {
 		classname: 'categoria'
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	res.render('novo-tipo', 
+    			{ 
+    				title: 'Adicionar novo Tipo', 
+    				nome_usuario_logado: req.user.first_name
+    			});
+	    } 
+	    else 
+	    {
 	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
 	    	
 	    	res.render('novo-tipo', 
@@ -169,12 +203,20 @@ router.post('/novo-tipo', isLoggedIn, function(req, res) {
 		sel : {"all" : ["name"]}
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
-	    	console.log("Categoria - nome ::: " + JSON.stringify(result.body.response.categoria[0].name));
-	    	
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", "Erro ao carregar as Categorias.");
+		    res.render('novo-tipo', 
+	  		{ 
+	  			title: 'Adicionar novo Tipo', 
+	  			nome_usuario_logado: req.user.first_name,
+	  			tip: req.body, 
+	  		});
+	    } 
+	    else 
+	    {
 	    	var nome_categoria = result.body.response.categoria[0].name;
 	    	
 	    	arrowDBApp.customObjectsCreate({
@@ -188,11 +230,24 @@ router.post('/novo-tipo', isLoggedIn, function(req, res) {
 	    	  }
 	    	}, function(err, result) {
 	    	
-	    		if (err) {
+	    		if (err) 
+	    		{
 	    			console.error(err.message);
-	    	    } else {
+	    		    
+	    		    req.flash("error", err.message);
+	    		    res.render('novo-tipo', 
+	    	  		{ 
+	    	  			title: 'Adicionar novo Tipo', 
+	    	  			nome_usuario_logado: req.user.first_name,
+	    	  			tip: req.body, 
+	    	  		});
+	    	    } 
+	    		else 
+	    		{
 	    	        console.log(result.body.response.servico);
-	    	      
+	    	        
+	    	        req.flash("success", "Tipo CADASTRADO com sucesso.");
+
 	    	        res.redirect('/tipos');
 	    	  }
 	    	});
@@ -219,10 +274,19 @@ router.get('/editar-tipo/:id', isLoggedIn, function(req, res, next) {
 	    	id: id
 	    }
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", "Tipo não encontrado.");
+		    res.render('editar-tipo', 
+	  		{ 
+	  		  title: 'Edição de Tipo', 
+	  		  nome_usuario_logado: req.user.first_name
+	  		});
+	    } 
+	    else 
+	    {
 	    	result.body.response.tipo.forEach(function(serv) {
 	            console.log(serv);
 	        });
@@ -243,8 +307,13 @@ router.get('/editar-tipo/:id', isLoggedIn, function(req, res, next) {
 	        else
         	{
 	        	console.error(err.message);
-		        // TODO - Enviar mensagem de erro
-	        	console.error("Lançando erro porque não encontrou tipo: " + result.body.response.tipo[0]);
+			    
+			    req.flash("error", "Tipo não encontrado.");
+			    res.render('editar-tipo', 
+		  		{ 
+		  		  title: 'Edição de Tipo', 
+		  		  nome_usuario_logado: req.user.first_name
+		  		});
         	}
 	    }
 	});
@@ -268,14 +337,24 @@ router.post('/editar-tipo/', isLoggedIn, function(req, res) {
 	    }
 	    
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", "Houve um erro ao editar este Tipo, por favor, tente novamente.");
+		    res.render('editar-tipo', 
+	  		{ 
+	  		  title: 'Edição de Tipo', 
+	  		  nome_usuario_logado: req.user.first_name
+	  		});
+	    } 
+	    else 
+	    {
 	    	result.body.response.tipo.forEach(function(tip) {
 	            console.log(tip);
 	        });
 	    	
-	    	//TODO - Lançar mensagem de que editou com sucesso
+	        req.flash("success", "Tipo EDITADO com sucesso!");
 	    	res.redirect('/tipos');
 	    }
 	});
@@ -294,12 +373,18 @@ router.get('/deletar-tipo/:id', isLoggedIn, function(req, res) {
 		classname: 'tipo',
 	    id: id
 	},function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	    } else {
+		if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", err.message);
+		    res.redirect('/tipos');
+	    } 
+	    else 
+	    {
 	        console.log('Tipo Excluído!');
 	        
-	        //TODO - Lançar mensagem de que editou com sucesso
+	        req.flash("success", "Tipo EXCLUÍDO com sucesso!");
 	        res.redirect('/tipos');
 	    }
 	});

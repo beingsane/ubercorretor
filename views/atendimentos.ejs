@@ -128,8 +128,10 @@
               <h1 class="page-title">
                 Atendimentos do Aplicativo
               </h1>
-              
             </div>
+            
+            <%- messages('mensagens-template', locals) %>
+            
             <div class="row row-cards">
               <div class="col-lg-4">
                 <form class="card" action="/atendimentos" method="post">
@@ -139,9 +141,11 @@
                       <div class="form-label">Serviço</div>
                       <select class="custom-select form-control" name="servico_pesquisa" />
                
-                       <% servicos.forEach(function(serv){ %>
-                          <option value="<%= serv.name %>"><%= serv.name %></option>
-                        <% }) %>
+                       <% if (typeof servicos !== 'undefined' && servicos) {
+	                       servicos.forEach(function(serv){ %>
+	                          <option value="<%= serv.name %>"><%= serv.name %></option>
+	                        <% }) 
+	                    } %>
                         
                       </select>
                     </div>
@@ -150,9 +154,11 @@
                       <div class="form-label">Tipo</div>
                       <select class="custom-select form-control" name="tipo_pesquisa" />
                
-                       <% tipos.forEach(function(tipo){ %>
-                          <option value="<%= tipo.name %>"><%= tipo.name %></option>
-                        <% }) %>
+                       <% if (typeof tipos !== 'undefined' && tipos) {
+	                       tipos.forEach(function(tipo){ %>
+	                          <option value="<%= tipo.name %>"><%= tipo.name %></option>
+	                        <% }) 
+	                    } %>
                         
                       </select>
                     </div>
@@ -175,15 +181,17 @@
                       <th class="d-none d-md-table-cell">Data/Hora</th>
                     </tr>
                     
-                    <% atendimentos.forEach(function(atend){ %>
-                    	<tr>
-                          <td><%= atend.custom_fields.name_profissional %></td>
-                          <td><%= atend.custom_fields.name_cliente %></td>
-                          <td><%= atend.custom_fields.name_servico %></td>
-                          <td><%= atend.custom_fields.name_tipo %></td>
-                          <td><%= atend.start_time %></td>
-                        </tr>
-                    <% }) %>
+                    <% if (typeof atendimentos !== 'undefined' && atendimentos) {
+	                    atendimentos.forEach(function(atend){ %>
+	                    	<tr>
+	                          <td><%= atend.custom_fields.name_profissional %></td>
+	                          <td><%= atend.custom_fields.name_cliente %></td>
+	                          <td><%= atend.custom_fields.name_servico %></td>
+	                          <td><%= atend.custom_fields.name_tipo %></td>
+	                          <td><%= atend.start_time %></td>
+	                        </tr>
+	                    <% }) 
+	                } %>
                     
 
                   </table>

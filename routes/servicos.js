@@ -14,10 +14,19 @@ router.get('/', isLoggedIn, function(req, res, next) {
 		classname: 'servico'
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", err.message);
+	    	res.render('servicos', 
+    			{ 
+    				title: 'Listagem de Serviços', 
+    				nome_usuario_logado: req.user.first_name,
+    			});	    
+	    } 
+	    else 
+	    {
 //	    	result.body.response.servico.forEach(function(serv) {
 //	            console.log(serv);
 //	            console.log("Nome serviço: " + serv.name);
@@ -33,10 +42,20 @@ router.get('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'categoria'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
+	    	    if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	    	res.render('servicos', 
+	        			{ 
+	        				title: 'Listagem de Serviços', 
+	        				nome_usuario_logado: req.user.first_name,
+	        				servicos: services,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
 //	    	    	result.body.response.categoria.forEach(function(cat) {
 //	    	            console.log(cat);
 //	    	        });
@@ -75,10 +94,19 @@ router.post('/', isLoggedIn, function(req, res, next) {
 		where : { "[CUSTOM_categoria]categoria_id": id_categoria}
 	
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", err.message);
+	    	res.render('servicos', 
+    			{ 
+    				title: 'Listagem de Serviços', 
+    				nome_usuario_logado: req.user.first_name,
+    			});
+	    } 
+	    else 
+	    {
 	        
 //	    	result.body.response.servico.forEach(function(serv) {
 //	            console.log(serv);
@@ -93,16 +121,28 @@ router.post('/', isLoggedIn, function(req, res, next) {
 	    		classname: 'categoria'
 	    		
 	    	}, function(err, result) {
-	    	    if (err) {
-	    	        console.error(err.message);
-	    	        // TODO - Enviar mensagem de erro
-	    	    } else {
+	    	    if (err) 
+	    	    {
+	    	    	console.error(err.message);
+	    		    
+	    	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	    	res.render('servicos', 
+	        			{ 
+	        				title: 'Listagem de Serviços', 
+	        				nome_usuario_logado: req.user.first_name,
+	        				servicos: services,
+	        			});
+	    	    } 
+	    	    else 
+	    	    {
 //	    	    	result.body.response.categoria.forEach(function(cat) {
 //	    	            console.log(cat);
 //	    	        });
 //	    	    	
 //	    	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
 	    	    	
+	    	    	req.flash("success", "Pesquisa efetuada com sucesso.");
+
 	    	    	res.render('servicos', 
 	    	    			{ 
 	    	    				title: 'Lista de Serviços', 
@@ -130,10 +170,19 @@ router.get('/novo-servico', isLoggedIn, function(req, res, next) {
 		classname: 'categoria'
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+	        req.flash("error", "Erro ao carregar as Categorias.");
+	    	res.render('novo-servico', 
+    			{ 
+    				title: 'Adicionar novo Serviço', 
+    				nome_usuario_logado: req.user.first_name
+    			});
+	    } 
+	    else 
+	    {
 	    	console.log("Lista de categorias::: " + JSON.stringify(result.body.response.categoria));
 	    	
 	    	res.render('novo-servico', 
@@ -169,10 +218,20 @@ router.post('/novo-servico', isLoggedIn, function(req, res) {
 		sel : {"all" : ["name"]}
 		
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", err.message);
+		    res.render('novo-servico', 
+	  		{ 
+	  			title: 'Listagem de Serviços', 
+	  			nome_usuario_logado: req.user.first_name,
+	  			serv: req.body, 
+	  		});
+	    } 
+	    else 
+	    {
 	    	console.log("Categoria - nome ::: " + JSON.stringify(result.body.response.categoria[0].name));
 	    	
 	    	var nome_categoria = result.body.response.categoria[0].name;
@@ -188,20 +247,32 @@ router.post('/novo-servico', isLoggedIn, function(req, res) {
 	    	  }
 	    	}, function(err, result) {
 	    	
-	    		if (err) {
+	    		if (err) 
+	    		{
 	    			console.error(err.message);
-	    	    } else {
+	    		    
+	    		    req.flash("error", err.message);
+	    		    res.render('novo-servico', 
+	    	  		{ 
+	    	  			title: 'Listagem de Serviços', 
+	    	  			nome_usuario_logado: req.user.first_name,
+	    	  			service: req.body, 
+	    	  		});
+	    	    } 
+	    		else 
+	    		{
 	    	        console.log(result.body.response.servico);
-	    	      
+	    		      
+	    	        req.flash("success", "Serviço CADASTRADO com sucesso.");
+
 	    	        res.redirect('/servicos');
 	    	  }
 	    	});
 	    }
 	});
     
-	
-
 })
+
 
 /* GET carrega serviço por ID. */
 router.get('/editar-servico/:id', isLoggedIn, function(req, res, next) {
@@ -219,10 +290,19 @@ router.get('/editar-servico/:id', isLoggedIn, function(req, res, next) {
 	    	id: id
 	    }
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	        // TODO - Enviar mensagem de erro
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", "Serviço não encontrado.");
+		    res.render('editar-servico', 
+	  		{ 
+	  		  title: 'Edição de Serviço', 
+	  		  nome_usuario_logado: req.user.first_name
+	  		});
+	    } 
+	    else 
+	    {
 	    	result.body.response.servico.forEach(function(serv) {
 	            console.log(serv);
 	        });
@@ -258,13 +338,25 @@ router.post('/editar-servico/', isLoggedIn, function(req, res) {
 	    }
 	    
 	}, function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", "Houve um erro ao editar este serviço, por favor, tente novamente.");
+		    res.render('editar-servico', 
+	  		{ 
+	  		  title: 'Listagem de Serviços', 
+	  		  nome_usuario_logado: req.user.first_name
+	  		});
+	    } 
+	    else 
+	    {
 	    	result.body.response.servico.forEach(function(serv) {
 	            console.log(serv);
 	        });
 	    	
+	        req.flash("success", "Serviço EDITADO com sucesso!");
+
 	    	res.redirect('/servicos');
 	    }
 	});
@@ -283,10 +375,18 @@ router.get('/deletar-servico/:id', isLoggedIn, function(req, res) {
 		classname: 'servico',
 	    id: id
 	},function(err, result) {
-	    if (err) {
-	        console.error(err.message);
-	    } else {
+	    if (err) 
+	    {
+	    	console.error(err.message);
+		    
+		    req.flash("error", err.message);
+		    res.redirect('/servicos');
+	    } 
+	    else 
+	    {
 	        console.log('Serviço Excluído!');
+	        
+	        req.flash("success", "Serviço EXCLUÍDO com sucesso!");
 	        res.redirect('/servicos');
 	    }
 	});

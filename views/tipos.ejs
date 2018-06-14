@@ -129,8 +129,10 @@
               <h1 class="page-title">
                 Tipos do Aplicativo
               </h1>
-              
             </div>
+            
+            <%- messages('mensagens-template', locals) %>
+            
             <div class="row row-cards">
               <div class="col-lg-4">
                 <form class="card" action="tipos" method="post">
@@ -139,9 +141,11 @@
                     <div class="form-group">
                       <div class="form-label">Categorias</div>
                       <select class="custom-select form-control" name="categoria_pesquisa" />
-                        <% categorias.forEach(function(categoria){ %>
-                          <option value="<%= categoria.id %>"><%= categoria.name %></option>
-                        <% }) %>
+                        <% if (typeof categorias !== 'undefined' && categorias) { 
+	                        categorias.forEach(function(categoria){ %>
+	                          <option value="<%= categoria.id %>"><%= categoria.name %></option>
+	                        <% }) 
+	                    } %>
                       </select>
                     </div>
                     
@@ -161,14 +165,16 @@
                       <th></th>
                     </tr>
                     
-                    <% tipos.forEach(function(tipo){ %>
-                    	<tr>
-                          <td><%= tipo.name %></td>
-                          <td><%= tipo.name_categoria %></td>
-                          <td class="w-1"><a href="/tipos/editar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-edit"></i></a></td>
-                          <td class="w-1"><a href="/tipos/deletar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
-                        </tr>
-                    <% }) %>
+                    <% if (typeof tipos !== 'undefined' && tipos) { 
+	                    tipos.forEach(function(tipo){ %>
+	                    	<tr>
+	                          <td><%= tipo.name %></td>
+	                          <td><%= tipo.name_categoria %></td>
+	                          <td class="w-1"><a href="/tipos/editar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-edit"></i></a></td>
+	                          <td class="w-1"><a href="/tipos/deletar-tipo/<%= tipo.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
+	                        </tr>
+	                    <% }) 
+	                   }%>
                     
                     
 

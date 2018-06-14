@@ -162,7 +162,7 @@
 						        return false;
 						      }
 						    } else {
-						      alert("Erro: Por favor, verifique se você digitou e confirmiu a senha!");
+						      alert("Erro: Por favor, verifique se você digitou e confirmiu a senha corretamente!");
 						      form.password.focus();
 						      return false;
 						    }
@@ -171,15 +171,18 @@
 						
 						</script>
 
-                        <form class="card" action="/usuarios/novo-usuario" method="POST"  onsubmit="return checkForm(this);">
+						<%- messages('mensagens-template', locals) %>
+				        
+					    
+                        <form class="card" action="/usuarios/novo-usuario" method="POST" onsubmit="return checkForm(this);">
                            <div class="card-body p-6">
 	                        <div class="form-group">
 	                          <label class="form-label">Nome<span class="form-required">*</span></label>
-	                          <input type="text" class="form-control" name="first_name" placeholder="Digite o nome.." required pattern="\w+" >
+	                          <input type="text" class="form-control" name="first_name" placeholder="Digite o nome.." required pattern="\w+" value="<%= (typeof usuario === 'undefined' || usuario == null ? '' : usuario.first_name) %>">
 	                        </div>
 	                        <div class="form-group">
 	                          <label class="form-label">Sobrenome<span class="form-required">*</span></label>
-	                          <input type="text" class="form-control" name="last_name" placeholder="Digite o sobrenome.." required>
+	                          <input type="text" class="form-control" name="last_name" placeholder="Digite o sobrenome.." required value="<%= (typeof usuario === 'undefined' || usuario == null ? '' : usuario.last_name) %>">
 	                        </div>
 	                        
 	                        <div class="form-group">
@@ -189,7 +192,7 @@
 	                            <span class="input-icon-addon">
 	                              <i class="fe fe-mail"></i>
 	                            </span>
-	                            <input type="email" class="form-control" name="email" placeholder="E-mail.." required>
+	                            <input type="email" class="form-control" name="email" placeholder="E-mail.." value="<%= (typeof usuario === 'undefined' || usuario == null ? '' : usuario.email) %>" required>
 	                          </div>
 	                        </div>
 	                        

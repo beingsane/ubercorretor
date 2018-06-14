@@ -5,14 +5,14 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/',  function(req, res, next) {
-  res.render('index', { title: 'Uber Corretor de Imóveis', message: req.flash('loginMessage') });
+  res.render('index', { title: 'Uber Corretor de Imóveis', message: req.flash('signupMessage') });
 });
 
 /* POST Efetuando o Login */
 router.post('/',
   passport.authenticate('local', { successRedirect: '/dashboard',
                                    failureRedirect: '/',
-                                   failureFlash: true })
+                                   failureFlash: true})
 );
 
 /* GET Efetuando o Logout */
