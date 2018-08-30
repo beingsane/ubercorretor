@@ -30,7 +30,7 @@ router.get('/dashboard', isLoggedIn,  function(req, res, next) {
 	
 	//Busca os 5 últimos usuários cadastrados
 	arrowDBApp.usersQuery({
-	    limit:5
+	    limit:10
 	}, function(err, result) {
 	    if (err) {
 	        console.error(err.message);
@@ -38,6 +38,10 @@ router.get('/dashboard', isLoggedIn,  function(req, res, next) {
 	    } else {
 
 	    	var usuarios_recentes = result.body.response.users;
+//	    	console.log("USUÁRIOS ENCONTRADOS DASHBOARD: ");
+//	        result.body.response.users.forEach(function(user) {
+//	            console.log(user);
+//	        });
 	    	
 	    	//Busca a quantidade total de usuários
 	    	arrowDBApp.usersCount(function(err, result) {

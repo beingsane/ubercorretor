@@ -180,6 +180,7 @@
                       <thead>
                         <tr>
                           <th colspan="2">Usuário</th>
+                          <th>E-mail</th>
                           <th>Perfil</th>
                           <th>Data</th>
                           <th></th>
@@ -190,6 +191,7 @@
                         <tr>
                           <td class="w-1"></td>
                           <td><%= user.first_name %></td>
+                          <td><%= user.username %></td>
                           <td><%= user.role %></td>
                           <td class="text-nowrap"><%= user.created_at %></td>
                           <td class="w-1"><a href="/usuarios/deletar-usuario/<%= user.id %>" class="icon"><i class="fe fe-trash"></i></a></td>
