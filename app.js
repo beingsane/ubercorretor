@@ -15,6 +15,7 @@ var usersRouter = require('./routes/usuarios');
 var servicosRouter = require('./routes/servicos');
 var tiposRouter = require('./routes/tipos');
 var atendimentosRouter = require('./routes/atendimentos');
+var notificacoesRouter = require('./routes/notificacoes');
 
 var app = express();
 
@@ -49,6 +50,7 @@ app.use('/usuarios', usersRouter);
 app.use('/servicos', servicosRouter);
 app.use('/tipos', tiposRouter);
 app.use('/atendimentos', atendimentosRouter);
+app.use('/notificacoes', notificacoesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -105,8 +107,8 @@ passport.use(new LocalStrategy({
        
 		var ArrowDB = require('arrowdb'),
 		    arrowDBApp = new ArrowDB('Rzt1Yat1xlvAa3hETbihRuAHmoT4aGLL', {
-		    	 	autoSessionManagement: false
-		    	 });
+	    		autoSessionManagement: false
+	    	});
 		
 		arrowDBApp.usersLogin({
 		    login: email,
